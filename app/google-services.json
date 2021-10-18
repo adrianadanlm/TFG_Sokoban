@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "595955718241",
+    "project_id": "aalm-dam-tfg2021",
+    "storage_bucket": "aalm-dam-tfg2021.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595955718241:android:0c15c22f510dfe4414b220",
+        "android_client_info": {
+          "package_name": "com.example.tfgsokoban"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "595955718241-sbn2e29uqj7aaf5ai67s0gbck31rkq97.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhrYdGOOShh_MzVYHh4dHsX4IjUzHiYrY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "595955718241-sbn2e29uqj7aaf5ai67s0gbck31rkq97.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
