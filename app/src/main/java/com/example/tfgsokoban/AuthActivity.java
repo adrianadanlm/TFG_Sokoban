@@ -11,13 +11,20 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AuthActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     Button signUpButton, loginButton;
     char choice;
 
@@ -30,7 +37,7 @@ public class AuthActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         //Registrar cuenta
-        signUpButton = (Button) findViewById(R.id.signUpButton);
+        signUpButton = (Button) findViewById(R.id.level1Button);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,13 +79,36 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void createAccount(String email, String pass) {
+        //Creamos autenticacion de usuario
         mAuth.createUserWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        FirebaseUser user = mAuth.getCurrentUser();
                         if (task.isSuccessful()) {
-                                goHome();
+                            //Creamos el objeto usuario
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("email", email);
+                            user.put("currentLevel", 1);
+
+                            //Creamos al usuario en la BBDD
+                            db.collection("user")
+                                    .add(user)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Toast.makeText(AuthActivity.this, documentReference.getId(),
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(AuthActivity.this, "Error adding document",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                            //Vamos a la Actividad Home.
+                            goHome();
                         } else {
                             Toast.makeText(AuthActivity.this, task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
@@ -92,7 +122,7 @@ public class AuthActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        FirebaseUser user = mAuth.getCurrentUser();
+                        //FirebaseUser user = mAuth.getCurrentUser();
                         if (task.isSuccessful()) {
                             goHome();
                         } else {
