@@ -37,7 +37,7 @@ public class AuthActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         //Registrar cuenta
-        signUpButton = (Button) findViewById(R.id.level1Button);
+        signUpButton = (Button) findViewById(R.id.playButton);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +58,7 @@ public class AuthActivity extends AppCompatActivity {
 
     }
 
+    //Comprobar que los campos tienen la información necesaria
     private void checkFields(char choice){
         EditText email = (EditText) findViewById(R.id.emailEditText);
         EditText pass = (EditText) findViewById(R.id.passEditText);
